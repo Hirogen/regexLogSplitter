@@ -13,14 +13,24 @@ namespace Splitt
     {
         #region Static/Constants
 
+        // TODO should be configurable
+        /// <summary>
+        /// static time filter regex
+        /// </summary>
         private const string TIME_FILTER_REGEX = @"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3})";
 
         #endregion
 
         #region Private Fields
 
+        /// <summary>
+        /// information of the logfile
+        /// </summary>
         private readonly FileData _filename;
 
+        /// <summary>
+        /// Temporary collection of log files, so they can be processed multi threaded
+        /// </summary>
         private BlockingCollection<string> _tempLines = new BlockingCollection<string>();
 
         #endregion
@@ -36,16 +46,29 @@ namespace Splitt
 
         #region Properties / Indexers
 
+        /// <summary>
+        /// start time for the time frame
+        /// </summary>
+        public DateTimeOffset StartTime { get; set; }
+
+        /// <summary>
+        /// end time for the time frame
+        /// </summary>
         public DateTimeOffset EndTime { get; set; }
 
+        /// <summary>
+        /// Extracted Lines for saving
+        /// </summary>
         public BlockingCollection<string> ExtractedLines { get; } = new BlockingCollection<string>();
-
-        public DateTimeOffset StartTime { get; set; }
 
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Start the extraction process
+        /// </summary>
+        /// <param name="cancellationToken"></param>
         public void Start(CancellationToken cancellationToken)
         {
             Task readLines = Task.Factory.StartNew(() => ReadingDataFromLogfile(cancellationToken), cancellationToken);
@@ -59,6 +82,10 @@ namespace Splitt
 
         #region Private Methods
 
+        /// <summary>
+        /// Check if the current line is within the time window and save it to a blockingCollection
+        /// </summary>
+        /// <param name="line"></param>
         private void ExtractTimeLogFile(string line)
         {
             // All lines with Timestamp
@@ -76,6 +103,10 @@ namespace Splitt
             }
         }
 
+        /// <summary>
+        /// Process the log lines multi threaded if possible
+        /// </summary>
+        /// <param name="cancellationToken"></param>
         private void ProcessLines(CancellationToken cancellationToken)
         {
             Parallel.ForEach(
@@ -96,6 +127,10 @@ namespace Splitt
             }
         }
 
+        /// <summary>
+        /// Read the log lines
+        /// </summary>
+        /// <param name="cancellationToken"></param>
         private void ReadingDataFromLogfile(CancellationToken cancellationToken)
         {
             if (_filename.FileInformation.Exists)
@@ -116,6 +151,10 @@ namespace Splitt
             }
         }
 
+        /// <summary>
+        /// Write data to the new file
+        /// </summary>
+        /// <param name="cancellationToken"></param>
         private void WritingDataToFile(CancellationToken cancellationToken)
         {
             string filename = CreateNewFileName();
@@ -151,6 +190,10 @@ namespace Splitt
             }
         }
 
+        /// <summary>
+        /// Create the new filename based on the selected time window
+        /// </summary>
+        /// <returns></returns>
         private string CreateNewFileName()
         {
             string startTime = StartTime.ToString("g", new CultureInfo("de-DE"));

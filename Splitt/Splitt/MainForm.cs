@@ -6,6 +6,8 @@ namespace Splitt
 {
     public partial class MainForm : Form
     {
+        // TODO Add progressbar
+
         #region Private Fields
 
         private readonly CancellationToken _cancellationToken;
@@ -37,6 +39,7 @@ namespace Splitt
             _splitter.StartTime = _startTime.Value;
             _splitter.EndTime = _endTime.Value;
 
+            // start in new thread, so GUI is not blocked
             _splitterThread = new Thread(() => _splitter.Start(_cancellationToken))
             {
                 Name = nameof(Split)
