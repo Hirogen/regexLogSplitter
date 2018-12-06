@@ -59,7 +59,7 @@ namespace Splitt
         /// <summary>
         /// Extracted Lines for saving
         /// </summary>
-        public BlockingCollection<string> ExtractedLines { get; } = new BlockingCollection<string>();
+        public BlockingCollection<string> ExtractedLines { get; private set;} = new BlockingCollection<string>();
 
         #endregion
 
@@ -76,6 +76,16 @@ namespace Splitt
             Task writingLines = Task.Factory.StartNew(() => WritingDataToFile(cancellationToken), cancellationToken);
 
             Task.WaitAll(readLines, processLines, writingLines);
+
+            if(processLines.IsCompleted && _tempLines.IsCompleted && (_tempLines.Count == 0 || _tempLines.Count < 0))
+            {
+                _tempLines = new BlockingCollection<string>();
+            }
+
+            if(writingLines.IsCompleted && ExtractedLines.IsCompleted && (ExtractedLines.Count == 0 || ExtractedLines.Count < 0))
+            {
+                ExtractedLines = new BlockingCollection<string>();
+            }
         }
 
         #endregion
