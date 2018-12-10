@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -13,6 +14,7 @@ namespace Splitt
         private readonly CancellationToken _cancellationToken;
         private readonly CancellationTokenSource _cancellationTokenSource;
         private FileData _file;
+        private FileData[] _filesData;
         private Split _splitter;
         private Thread _splitterThread;
 
@@ -38,6 +40,9 @@ namespace Splitt
 
             _splitter.StartTime = _startTime.Value;
             _splitter.EndTime = _endTime.Value;
+            _splitter.RemoveLineRegex = _txtBoxRemoveLineRegex.Text;
+            _splitter.FilesToWorkWith = _filesData;
+            _splitter.RemoveLines = chkBoxRemoveLines.Checked;
 
             // start in new thread, so GUI is not blocked
             _splitterThread = new Thread(() => _splitter.Start(_cancellationToken))
@@ -50,9 +55,9 @@ namespace Splitt
 
         private void openFile_Click(object sender, EventArgs e)
         {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                _file = new FileData(openFileDialog.FileName);
+                _file = new FileData(_openFileDialog.FileName);
                 _txtBoxFilePath.Text = _file.FileName;
                 toolTip.SetToolTip(_txtBoxFilePath, _txtBoxFilePath.Text);
             }
@@ -64,5 +69,23 @@ namespace Splitt
         }
 
         #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (_folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                string folderPath = _folderBrowserDialog.SelectedPath;
+                string[] files = Directory.GetFiles(folderPath);
+
+                _filesData = new FileData[files.Length];
+                for (int i = 0; i < files.Length; i++)
+                {
+                    _filesData[i] = new FileData(files[i]);
+                }
+
+                _txtBoxFilePath.Text = folderPath;
+                toolTip.SetToolTip(_txtBoxFilePath, _txtBoxFilePath.Text);
+            }
+        }
     }
 }

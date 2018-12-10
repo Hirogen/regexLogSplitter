@@ -19,6 +19,22 @@ namespace Splitt
         /// </summary>
         private const string TIME_FILTER_REGEX = @"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3})";
 
+        /// <summary>
+        /// Sets / Gets the Regex for Removing a Line from Log
+        /// </summary>
+        public string RemoveLineRegex { get; set; }
+
+
+        /// <summary>
+        /// Should Lines be removed?
+        /// </summary>
+        public bool RemoveLines { get; set; }
+
+        /// <summary>
+        /// Files from a Folder
+        /// </summary>
+        public FileData[] FilesToWorkWith { get; set; }
+
         #endregion
 
         #region Private Fields
@@ -27,6 +43,9 @@ namespace Splitt
         /// information of the logfile
         /// </summary>
         private readonly FileData _filename;
+
+
+        private string currentFile;
 
         /// <summary>
         /// Temporary collection of log files, so they can be processed multi threaded
@@ -75,6 +94,7 @@ namespace Splitt
             Task processLines = Task.Factory.StartNew(() => ProcessLines(cancellationToken), cancellationToken);
             Task writingLines = Task.Factory.StartNew(() => WritingDataToFile(cancellationToken), cancellationToken);
 
+
             Task.WaitAll(readLines, processLines, writingLines);
 
             if(processLines.IsCompleted && _tempLines.IsCompleted && (_tempLines.Count == 0 || _tempLines.Count < 0))
@@ -114,6 +134,21 @@ namespace Splitt
         }
 
         /// <summary>
+        /// Check if the current line is within the time window and save it to a blockingCollection
+        /// </summary>
+        /// <param name="line"></param>
+        private void ExtractTimeLogFile(string line, bool removeLines)
+        {
+            // If Match, we ignore the line
+            Match m = Regex.Match(line, RemoveLineRegex);
+
+            if (!m.Success)
+            {
+                ExtractedLines.Add(line);
+            }
+        }
+
+        /// <summary>
         /// Process the log lines multi threaded if possible
         /// </summary>
         /// <param name="cancellationToken"></param>
@@ -123,7 +158,14 @@ namespace Splitt
                 _tempLines.GetConsumingEnumerable().AsParallel().AsOrdered(),
                 (line, loopState) =>
                 {
-                    ExtractTimeLogFile(line);
+                    if (RemoveLines)
+                    {
+                        ExtractTimeLogFile(line, RemoveLines);
+                    }
+                    else
+                    {
+                        ExtractTimeLogFile(line);
+                    }
 
                     if (cancellationToken.IsCancellationRequested)
                     {
@@ -167,7 +209,9 @@ namespace Splitt
         /// <param name="cancellationToken"></param>
         private void WritingDataToFile(CancellationToken cancellationToken)
         {
-            string filename = CreateNewFileName();
+            string filename;
+
+            filename = RemoveLines ? CreateNewFileName(RemoveLines) : CreateNewFileName();
 
             if (!File.Exists(filename))
             {
@@ -198,6 +242,13 @@ namespace Splitt
                     }
                 }
             }
+        }
+
+        private string CreateNewFileName(bool now)
+        {
+            string startTime = DateTime.Now.ToString("g", new CultureInfo("de-DE")).Replace(" ", "_").Replace(":", string.Empty);
+
+            return _filename.Path + @"\" + _filename.Name + @"_" + startTime + _filename.Extension;
         }
 
         /// <summary>
