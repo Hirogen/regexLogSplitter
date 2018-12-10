@@ -132,14 +132,13 @@
             // 
             // _btnLoadFolder
             // 
-            this._btnLoadFolder.Enabled = false;
             this._btnLoadFolder.Location = new System.Drawing.Point(12, 141);
             this._btnLoadFolder.Name = "_btnLoadFolder";
             this._btnLoadFolder.Size = new System.Drawing.Size(206, 23);
             this._btnLoadFolder.TabIndex = 9;
             this._btnLoadFolder.Text = "Load Folder";
             this._btnLoadFolder.UseVisualStyleBackColor = true;
-            this._btnLoadFolder.Click += new System.EventHandler(this.button1_Click);
+            this._btnLoadFolder.Click += new System.EventHandler(this.loadFolder_Click);
             // 
             // MainForm
             // 

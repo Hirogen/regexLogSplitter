@@ -4,37 +4,54 @@ namespace Splitt
 {
     public class FileData
     {
-        /// <summary>
-        /// Filename without extension
-        /// </summary>
-        public string Name { get; private set; }
+        #region Ctor
 
         /// <summary>
-        /// Path without Filename
+        /// Initializes a new instance of the <see cref="FileData"/> class
         /// </summary>
-        public string Path { get; private set; }
+        /// <param name="filename">Filename for the file information</param>
+        public FileData(string filename)
+        {
+            FileName = filename;
+            Populate();
+        }
+
+        #endregion
+
+        #region Properties / Indexers
 
         /// <summary>
-        /// Extension
+        /// Gets the extension
         /// </summary>
         public string Extension { get; private set; }
 
         /// <summary>
-        /// Full filename, path, name and extension
+        /// Gets the file information
+        /// </summary>
+        public FileInfo FileInformation { get; private set; }
+
+        /// <summary>
+        /// Gets the  full filename, path, name and extension
         /// </summary>
         public string FileName { get; }
 
         /// <summary>
-        /// Fileinformation
+        /// Gets the filename without extension
         /// </summary>
-        public FileInfo FileInformation { get; private set; }
+        public string Name { get; private set; }
 
-        public FileData(string _filename)
-        {
-            FileName = _filename;
-            Populate();
-        }
+        /// <summary>
+        /// Gets the path without filename
+        /// </summary>
+        public string Path { get; private set; }
 
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Populates the properties of the class
+        /// </summary>
         private void Populate()
         {
             FileInformation = new FileInfo(FileName);
@@ -42,5 +59,7 @@ namespace Splitt
             Name = System.IO.Path.GetFileNameWithoutExtension(FileInformation.Name);
             Extension = FileInformation.Extension;
         }
+
+        #endregion
     }
 }

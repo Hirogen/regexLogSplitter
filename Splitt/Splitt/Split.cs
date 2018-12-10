@@ -14,26 +14,11 @@ namespace Splitt
         #region Static/Constants
 
         // TODO should be configurable
+
         /// <summary>
         /// static time filter regex
         /// </summary>
         private const string TIME_FILTER_REGEX = @"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3})";
-
-        /// <summary>
-        /// Sets / Gets the Regex for Removing a Line from Log
-        /// </summary>
-        public string RemoveLineRegex { get; set; }
-
-
-        /// <summary>
-        /// Should Lines be removed?
-        /// </summary>
-        public bool RemoveLines { get; set; }
-
-        /// <summary>
-        /// Files from a Folder
-        /// </summary>
-        public FileData[] FilesToWorkWith { get; set; }
 
         #endregion
 
@@ -43,9 +28,6 @@ namespace Splitt
         /// information of the logfile
         /// </summary>
         private readonly FileData _filename;
-
-
-        private string currentFile;
 
         /// <summary>
         /// Temporary collection of log files, so they can be processed multi threaded
@@ -66,19 +48,30 @@ namespace Splitt
         #region Properties / Indexers
 
         /// <summary>
-        /// start time for the time frame
-        /// </summary>
-        public DateTimeOffset StartTime { get; set; }
-
-        /// <summary>
-        /// end time for the time frame
+        /// Gets or sets the end time for the time frame
         /// </summary>
         public DateTimeOffset EndTime { get; set; }
 
         /// <summary>
-        /// Extracted Lines for saving
+        /// Gets the extracted Lines for saving
         /// </summary>
-        public BlockingCollection<string> ExtractedLines { get; private set;} = new BlockingCollection<string>();
+        public BlockingCollection<string> ExtractedLines { get; private set; } = new BlockingCollection<string>();
+
+        /// <summary>
+        /// Gets or sets the Regex for Removing a Line from Log
+        /// </summary>
+        public string RemoveLineRegex { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the lines should be removed or not
+        /// </summary>
+        public bool RemoveLines { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start time for the time frame
+        /// </summary>
+        public DateTimeOffset StartTime { get; set; }
 
         #endregion
 
@@ -87,7 +80,7 @@ namespace Splitt
         /// <summary>
         /// Start the extraction process
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Cancels the process</param>
         public void Start(CancellationToken cancellationToken)
         {
             Task readLines = Task.Factory.StartNew(() => ReadingDataFromLogfile(cancellationToken), cancellationToken);
@@ -97,12 +90,12 @@ namespace Splitt
 
             Task.WaitAll(readLines, processLines, writingLines);
 
-            if(processLines.IsCompleted && _tempLines.IsCompleted && (_tempLines.Count == 0 || _tempLines.Count < 0))
+            if (processLines.IsCompleted && _tempLines.IsCompleted && (_tempLines.Count == 0 || _tempLines.Count < 0))
             {
                 _tempLines = new BlockingCollection<string>();
             }
 
-            if(writingLines.IsCompleted && ExtractedLines.IsCompleted && (ExtractedLines.Count == 0 || ExtractedLines.Count < 0))
+            if (writingLines.IsCompleted && ExtractedLines.IsCompleted && (ExtractedLines.Count == 0 || ExtractedLines.Count < 0))
             {
                 ExtractedLines = new BlockingCollection<string>();
             }
@@ -113,9 +106,36 @@ namespace Splitt
         #region Private Methods
 
         /// <summary>
+        /// Creates a filename based on the current time
+        /// </summary>
+        /// <param name="now">should it be the current time?</param>
+        /// <returns>the filename</returns>
+        private string CreateNewFileName(bool now)
+        {
+            string startTime = DateTime.Now.ToString("g", new CultureInfo("de-DE")).Replace(" ", "_").Replace(":", string.Empty);
+
+            return _filename.Path + @"\" + _filename.Name + @"_" + startTime + _filename.Extension;
+        }
+
+        /// <summary>
+        /// Creates the new filename based on the selected time window
+        /// </summary>
+        /// <returns>the filename</returns>
+        private string CreateNewFileName()
+        {
+            string startTime = StartTime.ToString("g", new CultureInfo("de-DE"));
+            string endTime = EndTime.ToString("g", new CultureInfo("de-DE"));
+
+            startTime = startTime.Replace(" ", "_").Replace(":", string.Empty);
+            endTime = endTime.Replace(" ", "_").Replace(":", string.Empty);
+
+            return _filename.Path + @"\" + _filename.Name + @"_" + startTime + @"_to_" + endTime + _filename.Extension;
+        }
+
+        /// <summary>
         /// Check if the current line is within the time window and save it to a blockingCollection
         /// </summary>
-        /// <param name="line"></param>
+        /// <param name="line">current log line</param>
         private void ExtractTimeLogFile(string line)
         {
             // All lines with Timestamp
@@ -136,7 +156,7 @@ namespace Splitt
         /// <summary>
         /// Check if the current line is within the time window and save it to a blockingCollection
         /// </summary>
-        /// <param name="line"></param>
+        /// <param name="line">current log line</param>
         private void ExtractTimeLogFile(string line, bool removeLines)
         {
             // If Match, we ignore the line
@@ -151,7 +171,7 @@ namespace Splitt
         /// <summary>
         /// Process the log lines multi threaded if possible
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Cancels the process</param>
         private void ProcessLines(CancellationToken cancellationToken)
         {
             Parallel.ForEach(
@@ -182,7 +202,7 @@ namespace Splitt
         /// <summary>
         /// Read the log lines
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Cancels the process</param>
         private void ReadingDataFromLogfile(CancellationToken cancellationToken)
         {
             if (_filename.FileInformation.Exists)
@@ -206,7 +226,7 @@ namespace Splitt
         /// <summary>
         /// Write data to the new file
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Cancels the process</param>
         private void WritingDataToFile(CancellationToken cancellationToken)
         {
             string filename;
@@ -242,28 +262,6 @@ namespace Splitt
                     }
                 }
             }
-        }
-
-        private string CreateNewFileName(bool now)
-        {
-            string startTime = DateTime.Now.ToString("g", new CultureInfo("de-DE")).Replace(" ", "_").Replace(":", string.Empty);
-
-            return _filename.Path + @"\" + _filename.Name + @"_" + startTime + _filename.Extension;
-        }
-
-        /// <summary>
-        /// Create the new filename based on the selected time window
-        /// </summary>
-        /// <returns></returns>
-        private string CreateNewFileName()
-        {
-            string startTime = StartTime.ToString("g", new CultureInfo("de-DE"));
-            string endTime = EndTime.ToString("g", new CultureInfo("de-DE"));
-
-            startTime = startTime.Replace(" ", "_").Replace(":", string.Empty);
-            endTime = endTime.Replace(" ", "_").Replace(":", string.Empty);
-
-            return _filename.Path + @"\" + _filename.Name + @"_" + startTime + @"_to_" + endTime + _filename.Extension;
         }
 
         #endregion

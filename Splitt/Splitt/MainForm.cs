@@ -13,10 +13,9 @@ namespace Splitt
 
         private readonly CancellationToken _cancellationToken;
         private readonly CancellationTokenSource _cancellationTokenSource;
-        private FileData _file;
         private FileData[] _filesData;
-        private Split _splitter;
-        private Thread _splitterThread;
+        private Split[] _splittingMultipleFiles;
+        private Thread[] _splittingMultipleFilesThreads;
 
         #endregion
 
@@ -36,29 +35,20 @@ namespace Splitt
 
         private void start_Click(object sender, EventArgs e)
         {
-            _splitter = new Split(_file);
 
-            _splitter.StartTime = _startTime.Value;
-            _splitter.EndTime = _endTime.Value;
-            _splitter.RemoveLineRegex = _txtBoxRemoveLineRegex.Text;
-            _splitter.FilesToWorkWith = _filesData;
-            _splitter.RemoveLines = chkBoxRemoveLines.Checked;
-
-            // start in new thread, so GUI is not blocked
-            _splitterThread = new Thread(() => _splitter.Start(_cancellationToken))
+            if (_filesData.Length > 0)
             {
-                Name = nameof(Split)
-            };
-
-            _splitterThread.Start();
+                FilesPreWork();
+                CreateThreads();
+            }
         }
 
         private void openFile_Click(object sender, EventArgs e)
         {
             if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                _file = new FileData(_openFileDialog.FileName);
-                _txtBoxFilePath.Text = _file.FileName;
+                _filesData = new[] { new FileData(_openFileDialog.FileName) };
+                _txtBoxFilePath.Text = _filesData[0].FileName; // Possible Bug
                 toolTip.SetToolTip(_txtBoxFilePath, _txtBoxFilePath.Text);
             }
         }
@@ -70,7 +60,7 @@ namespace Splitt
 
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
+        private void loadFolder_Click(object sender, EventArgs e)
         {
             if (_folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
@@ -85,6 +75,40 @@ namespace Splitt
 
                 _txtBoxFilePath.Text = folderPath;
                 toolTip.SetToolTip(_txtBoxFilePath, _txtBoxFilePath.Text);
+            }
+        }
+
+        private void FilesPreWork()
+        {
+            _splittingMultipleFiles = new Split[_filesData.Length];
+
+            for (int i = 0; i < _splittingMultipleFiles.Length; i++)
+            {
+                _splittingMultipleFiles[i] = new Split(_filesData[i]);
+                _splittingMultipleFiles[i].StartTime = _startTime.Value;
+                _splittingMultipleFiles[i].EndTime = _endTime.Value;
+                _splittingMultipleFiles[i].RemoveLineRegex = _txtBoxRemoveLineRegex.Text;
+                _splittingMultipleFiles[i].RemoveLines = chkBoxRemoveLines.Checked;
+            }
+        }
+
+        private void CreateThreads()
+        {
+            _splittingMultipleFilesThreads = new Thread[_filesData.Length];
+
+            for (int i = 0; i < _splittingMultipleFilesThreads.Length; i++)
+            {
+                //Index Out of Bounds Exception without threadCopy!
+                int threadCopy = i;
+                _splittingMultipleFilesThreads[i] = new Thread(() => _splittingMultipleFiles[threadCopy].Start(_cancellationToken))
+                {
+                    Name = _filesData[i].Name
+                };
+            }
+
+            foreach (Thread t in _splittingMultipleFilesThreads)
+            {
+                t.Start();
             }
         }
     }
