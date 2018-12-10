@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -13,9 +15,9 @@ namespace Splitt
 
         private readonly CancellationToken _cancellationToken;
         private readonly CancellationTokenSource _cancellationTokenSource;
-        private FileData[] _filesData;
-        private Split[] _splittingMultipleFiles;
-        private Thread[] _splittingMultipleFilesThreads;
+        private readonly List<FileData> _filesData = new List<FileData>();
+        private List<Split> _splittingMultipleFiles = new List<Split>();
+        private List<Thread> _splittingMultipleFilesThreads = new List<Thread>();
 
         #endregion
 
@@ -33,44 +35,43 @@ namespace Splitt
 
         #region Private Methods
 
-        private void start_Click(object sender, EventArgs e)
+        private void Start_Click(object sender, EventArgs e)
         {
 
-            if (_filesData.Length > 0)
+            if (_filesData.Capacity > 0)
             {
                 FilesPreWork();
                 CreateThreads();
             }
         }
 
-        private void openFile_Click(object sender, EventArgs e)
+        private void OpenFile_Click(object sender, EventArgs e)
         {
             if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                _filesData = new[] { new FileData(_openFileDialog.FileName) };
-                _txtBoxFilePath.Text = _filesData[0].FileName; // Possible Bug
+                _filesData.Add(new FileData(_openFileDialog.FileName));
+                _txtBoxFilePath.Text = _filesData.First().FileName;
                 toolTip.SetToolTip(_txtBoxFilePath, _txtBoxFilePath.Text);
             }
         }
 
-        private void cancel_Click(object sender, EventArgs e)
+        private void Cancel_Click(object sender, EventArgs e)
         {
             _cancellationTokenSource.Cancel();
         }
 
         #endregion
 
-        private void loadFolder_Click(object sender, EventArgs e)
+        private void LoadFolder_Click(object sender, EventArgs e)
         {
             if (_folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 string folderPath = _folderBrowserDialog.SelectedPath;
-                string[] files = Directory.GetFiles(folderPath);
+                List<string> files = Directory.GetFiles(folderPath).ToList();
 
-                _filesData = new FileData[files.Length];
-                for (int i = 0; i < files.Length; i++)
+                foreach (string file in files)
                 {
-                    _filesData[i] = new FileData(files[i]);
+                    _filesData.Add(new FileData(file));
                 }
 
                 _txtBoxFilePath.Text = folderPath;
@@ -80,30 +81,38 @@ namespace Splitt
 
         private void FilesPreWork()
         {
-            _splittingMultipleFiles = new Split[_filesData.Length];
-
-            for (int i = 0; i < _splittingMultipleFiles.Length; i++)
+            if (_splittingMultipleFiles.Count > 0)
             {
-                _splittingMultipleFiles[i] = new Split(_filesData[i]);
-                _splittingMultipleFiles[i].StartTime = _startTime.Value;
-                _splittingMultipleFiles[i].EndTime = _endTime.Value;
-                _splittingMultipleFiles[i].RemoveLineRegex = _txtBoxRemoveLineRegex.Text;
-                _splittingMultipleFiles[i].RemoveLines = chkBoxRemoveLines.Checked;
+                _splittingMultipleFiles = new List<Split>();
+            }
+
+            foreach (FileData fileData in _filesData)
+            {
+                _splittingMultipleFiles.Add(new Split(fileData));
+            }
+
+            foreach (Split splittingMultipleFile in _splittingMultipleFiles)
+            {
+                splittingMultipleFile.StartTime = _startTime.Value;
+                splittingMultipleFile.EndTime = _endTime.Value;
+                splittingMultipleFile.RemoveLineRegex = _txtBoxRemoveLineRegex.Text;
+                splittingMultipleFile.RemoveLines = chkBoxRemoveLines.Checked;
             }
         }
 
         private void CreateThreads()
         {
-            _splittingMultipleFilesThreads = new Thread[_filesData.Length];
-
-            for (int i = 0; i < _splittingMultipleFilesThreads.Length; i++)
+            if (_splittingMultipleFilesThreads.Count > 0)
             {
-                //Index Out of Bounds Exception without threadCopy!
-                int threadCopy = i;
-                _splittingMultipleFilesThreads[i] = new Thread(() => _splittingMultipleFiles[threadCopy].Start(_cancellationToken))
+                _splittingMultipleFilesThreads = new List<Thread>();
+            }
+
+            foreach (Split splittingMultipleFile in _splittingMultipleFiles)
+            {
+                _splittingMultipleFilesThreads.Add(new Thread(() => splittingMultipleFile.Start(_cancellationToken))
                 {
-                    Name = _filesData[i].Name
-                };
+                    Name = splittingMultipleFile.Filename.Name
+                });
             }
 
             foreach (Thread t in _splittingMultipleFilesThreads)

@@ -52,7 +52,7 @@
             this.startProcess.TabIndex = 0;
             this.startProcess.Text = "Start";
             this.startProcess.UseVisualStyleBackColor = true;
-            this.startProcess.Click += new System.EventHandler(this.start_Click);
+            this.startProcess.Click += new System.EventHandler(this.Start_Click);
             // 
             // loadFile
             // 
@@ -62,7 +62,7 @@
             this.loadFile.TabIndex = 1;
             this.loadFile.Text = "Load File";
             this.loadFile.UseVisualStyleBackColor = true;
-            this.loadFile.Click += new System.EventHandler(this.openFile_Click);
+            this.loadFile.Click += new System.EventHandler(this.OpenFile_Click);
             // 
             // _openFileDialog
             // 
@@ -76,7 +76,7 @@
             this.cancel.TabIndex = 2;
             this.cancel.Text = "Cancel";
             this.cancel.UseVisualStyleBackColor = true;
-            this.cancel.Click += new System.EventHandler(this.cancel_Click);
+            this.cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // _startTime
             // 
@@ -138,7 +138,7 @@
             this._btnLoadFolder.TabIndex = 9;
             this._btnLoadFolder.Text = "Load Folder";
             this._btnLoadFolder.UseVisualStyleBackColor = true;
-            this._btnLoadFolder.Click += new System.EventHandler(this.loadFolder_Click);
+            this._btnLoadFolder.Click += new System.EventHandler(this.LoadFolder_Click);
             // 
             // MainForm
             // 

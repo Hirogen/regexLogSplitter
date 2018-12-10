@@ -25,11 +25,6 @@ namespace Splitt
         #region Private Fields
 
         /// <summary>
-        /// information of the logfile
-        /// </summary>
-        private readonly FileData _filename;
-
-        /// <summary>
         /// Temporary collection of log files, so they can be processed multi threaded
         /// </summary>
         private BlockingCollection<string> _tempLines = new BlockingCollection<string>();
@@ -40,7 +35,7 @@ namespace Splitt
 
         public Split(FileData filename)
         {
-            _filename = filename;
+            Filename = filename;
         }
 
         #endregion
@@ -56,6 +51,11 @@ namespace Splitt
         /// Gets the extracted Lines for saving
         /// </summary>
         public BlockingCollection<string> ExtractedLines { get; private set; } = new BlockingCollection<string>();
+
+        /// <summary>
+        /// Gets the information of the logfile
+        /// </summary>
+        public FileData Filename { get; }
 
         /// <summary>
         /// Gets or sets the Regex for Removing a Line from Log
@@ -114,7 +114,7 @@ namespace Splitt
         {
             string startTime = DateTime.Now.ToString("g", new CultureInfo("de-DE")).Replace(" ", "_").Replace(":", string.Empty);
 
-            return _filename.Path + @"\" + _filename.Name + @"_" + startTime + _filename.Extension;
+            return Filename.Path + @"\" + Filename.Name + @"_" + startTime + Filename.Extension;
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Splitt
             startTime = startTime.Replace(" ", "_").Replace(":", string.Empty);
             endTime = endTime.Replace(" ", "_").Replace(":", string.Empty);
 
-            return _filename.Path + @"\" + _filename.Name + @"_" + startTime + @"_to_" + endTime + _filename.Extension;
+            return Filename.Path + @"\" + Filename.Name + @"_" + startTime + @"_to_" + endTime + Filename.Extension;
         }
 
         /// <summary>
@@ -205,11 +205,11 @@ namespace Splitt
         /// <param name="cancellationToken">Cancels the process</param>
         private void ReadingDataFromLogfile(CancellationToken cancellationToken)
         {
-            if (_filename.FileInformation.Exists)
+            if (Filename.FileInformation.Exists)
             {
                 _tempLines = new BlockingCollection<string>();
 
-                foreach (string line in File.ReadLines(_filename.FileInformation.FullName))
+                foreach (string line in File.ReadLines(Filename.FileInformation.FullName))
                 {
                     _tempLines.Add(line, cancellationToken);
 
