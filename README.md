@@ -19,3 +19,4 @@ Filter a logfile based on a Regex
 * Better usability
 * Add more Options
 * Add more Screens
+* Allow TimeFormat Regexs, so no hardcoded timeformat is used
