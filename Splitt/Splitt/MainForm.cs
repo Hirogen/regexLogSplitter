@@ -95,8 +95,9 @@ namespace Splitt
             {
                 splittingMultipleFile.StartTime = _startTime.Value;
                 splittingMultipleFile.EndTime = _endTime.Value;
-                splittingMultipleFile.RemoveLineRegex = _txtBoxRemoveLineRegex.Text;
-                splittingMultipleFile.RemoveLines = chkBoxRemoveLines.Checked;
+                splittingMultipleFile.LineRegex = _txtBoxRemoveLineRegex.Text;
+                splittingMultipleFile.RemoveLines = _chkBoxRemoveLines.Checked;
+                splittingMultipleFile.Interval = _chkboxInterval.Checked;
             }
         }
 

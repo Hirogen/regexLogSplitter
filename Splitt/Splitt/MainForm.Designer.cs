@@ -39,9 +39,10 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this._txtBoxRemoveLineRegex = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.chkBoxRemoveLines = new System.Windows.Forms.CheckBox();
+            this._chkBoxRemoveLines = new System.Windows.Forms.CheckBox();
             this._btnLoadFolder = new System.Windows.Forms.Button();
             this._folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this._chkboxInterval = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // startProcess
@@ -98,7 +99,7 @@
             // 
             // _txtBoxFilePath
             // 
-            this._txtBoxFilePath.Location = new System.Drawing.Point(12, 58);
+            this._txtBoxFilePath.Location = new System.Drawing.Point(11, 58);
             this._txtBoxFilePath.Name = "_txtBoxFilePath";
             this._txtBoxFilePath.ReadOnly = true;
             this._txtBoxFilePath.Size = new System.Drawing.Size(205, 20);
@@ -116,19 +117,19 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(192, 13);
+            this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Remove all lines containing this Regex:";
+            this.label1.Text = "Filter Regex:";
             // 
-            // chkBoxRemoveLines
+            // _chkBoxRemoveLines
             // 
-            this.chkBoxRemoveLines.AutoSize = true;
-            this.chkBoxRemoveLines.Location = new System.Drawing.Point(12, 84);
-            this.chkBoxRemoveLines.Name = "chkBoxRemoveLines";
-            this.chkBoxRemoveLines.Size = new System.Drawing.Size(100, 17);
-            this.chkBoxRemoveLines.TabIndex = 8;
-            this.chkBoxRemoveLines.Text = "Remove Lines?";
-            this.chkBoxRemoveLines.UseVisualStyleBackColor = true;
+            this._chkBoxRemoveLines.AutoSize = true;
+            this._chkBoxRemoveLines.Location = new System.Drawing.Point(12, 84);
+            this._chkBoxRemoveLines.Name = "_chkBoxRemoveLines";
+            this._chkBoxRemoveLines.Size = new System.Drawing.Size(100, 17);
+            this._chkBoxRemoveLines.TabIndex = 8;
+            this._chkBoxRemoveLines.Text = "Remove Lines?";
+            this._chkBoxRemoveLines.UseVisualStyleBackColor = true;
             // 
             // _btnLoadFolder
             // 
@@ -140,13 +141,24 @@
             this._btnLoadFolder.UseVisualStyleBackColor = true;
             this._btnLoadFolder.Click += new System.EventHandler(this.LoadFolder_Click);
             // 
+            // _chkboxInterval
+            // 
+            this._chkboxInterval.AutoSize = true;
+            this._chkboxInterval.Location = new System.Drawing.Point(11, 107);
+            this._chkboxInterval.Name = "_chkboxInterval";
+            this._chkboxInterval.Size = new System.Drawing.Size(67, 17);
+            this._chkboxInterval.TabIndex = 10;
+            this._chkboxInterval.Text = "Interval?";
+            this._chkboxInterval.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(229, 280);
+            this.Controls.Add(this._chkboxInterval);
             this.Controls.Add(this._btnLoadFolder);
-            this.Controls.Add(this.chkBoxRemoveLines);
+            this.Controls.Add(this._chkBoxRemoveLines);
             this.Controls.Add(this.label1);
             this.Controls.Add(this._txtBoxRemoveLineRegex);
             this.Controls.Add(this._txtBoxFilePath);
@@ -174,9 +186,10 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.TextBox _txtBoxRemoveLineRegex;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox chkBoxRemoveLines;
+        private System.Windows.Forms.CheckBox _chkBoxRemoveLines;
         private System.Windows.Forms.Button _btnLoadFolder;
         private System.Windows.Forms.FolderBrowserDialog _folderBrowserDialog;
+        private System.Windows.Forms.CheckBox _chkboxInterval;
     }
 }
 

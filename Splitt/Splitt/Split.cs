@@ -60,13 +60,18 @@ namespace Splitt
         /// <summary>
         /// Gets or sets the Regex for Removing a Line from Log
         /// </summary>
-        public string RemoveLineRegex { get; set; }
+        public string LineRegex { get; set; }
 
 
         /// <summary>
         /// Gets or sets a value indicating whether the lines should be removed or not
         /// </summary>
         public bool RemoveLines { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether an interval is used to split the log file apart
+        /// </summary>
+        public bool Interval { get; set; }
 
         /// <summary>
         /// Gets or sets the start time for the time frame
@@ -83,9 +88,11 @@ namespace Splitt
         /// <param name="cancellationToken">Cancels the process</param>
         public void Start(CancellationToken cancellationToken)
         {
+
+            // TODO ADD Event for progressbar so user knows
             Task readLines = Task.Factory.StartNew(() => ReadingDataFromLogfile(cancellationToken), cancellationToken);
             Task processLines = Task.Factory.StartNew(() => ProcessLines(cancellationToken), cancellationToken);
-            Task writingLines = Task.Factory.StartNew(() => WritingDataToFile(cancellationToken), cancellationToken);
+            Task writingLines = Task.Factory.StartNew(() => WritingDataToNewFile(cancellationToken), cancellationToken);
 
 
             Task.WaitAll(readLines, processLines, writingLines);
@@ -106,42 +113,65 @@ namespace Splitt
         #region Private Methods
 
         /// <summary>
-        /// Creates a filename based on the current time
-        /// </summary>
-        /// <param name="now">should it be the current time?</param>
-        /// <returns>the filename</returns>
-        private string CreateNewFileName(bool now)
-        {
-            string startTime = DateTime.Now.ToString("g", new CultureInfo("de-DE")).Replace(" ", "_").Replace(":", string.Empty);
-
-            return Filename.Path + @"\" + Filename.Name + @"_" + startTime + Filename.Extension;
-        }
-
-        /// <summary>
         /// Creates the new filename based on the selected time window
         /// </summary>
         /// <returns>the filename</returns>
         private string CreateNewFileName()
         {
-            string startTime = StartTime.ToString("g", new CultureInfo("de-DE"));
-            string endTime = EndTime.ToString("g", new CultureInfo("de-DE"));
+            string timeStamp = CreateTimeStamps();
+            string filename = Filename.Path + @"\" + Filename.Name + @"_" + timeStamp + Filename.Extension;
 
-            startTime = startTime.Replace(" ", "_").Replace(":", string.Empty);
-            endTime = endTime.Replace(" ", "_").Replace(":", string.Empty);
+            if (!File.Exists(filename))
+            {
+                using (File.Create(filename))
+                {
+                    // TODO LOG File Created
+                }
+            }
 
-            return Filename.Path + @"\" + Filename.Name + @"_" + startTime + @"_to_" + endTime + Filename.Extension;
+            return filename;
+        }
+
+        /// <summary>
+        /// Creates the time stamp for the new logfile
+        /// </summary>
+        /// <returns>the time stamp as string</returns>
+        private string CreateTimeStamps()
+        {
+            string timeStamp;
+
+            if (Interval)
+            {
+                string startTime = StartTime.ToString("g", new CultureInfo("de-DE"));
+                string endTime = EndTime.ToString("g", new CultureInfo("de-DE"));
+
+                startTime = startTime.Replace(" ", "_").Replace(":", string.Empty);
+                endTime = endTime.Replace(" ", "_").Replace(":", string.Empty);
+
+                timeStamp = startTime + @"_to_" + endTime;
+            }
+            else
+            {
+                timeStamp = DateTime.Now.ToString("g", new CultureInfo("de-DE")).Replace(" ", "_").Replace(":", string.Empty);
+            }
+
+            return timeStamp;
         }
 
         /// <summary>
         /// Check if the current line is within the time window and save it to a blockingCollection
         /// </summary>
         /// <param name="line">current log line</param>
-        private void ExtractTimeLogFile(string line)
+        private void ExtractLineFromLogFile(string line)
         {
-            // All lines with Timestamp
-            Match m = Regex.Match(line, TIME_FILTER_REGEX);
+            Match m = Regex.Match(line, Interval ? TIME_FILTER_REGEX : LineRegex);
 
-            if (m.Success)
+            if (!m.Success)
+            {
+                return;
+            }
+
+            if (Interval)
             {
                 if (DateTimeOffset.TryParse(m.Groups[0].Value.Trim(), out DateTimeOffset parsedTime))
                 {
@@ -151,16 +181,20 @@ namespace Splitt
                     }
                 }
             }
+            else
+            {
+                ExtractedLines.Add(line);
+            }
         }
 
         /// <summary>
         /// Check if the current line is within the time window and save it to a blockingCollection
         /// </summary>
         /// <param name="line">current log line</param>
-        private void ExtractTimeLogFile(string line, bool removeLines)
+        private void RemoveLineFromLogFile(string line)
         {
             // If Match, we ignore the line
-            Match m = Regex.Match(line, RemoveLineRegex);
+            Match m = Regex.Match(line, LineRegex);
 
             if (!m.Success)
             {
@@ -180,11 +214,11 @@ namespace Splitt
                 {
                     if (RemoveLines)
                     {
-                        ExtractTimeLogFile(line, RemoveLines);
+                        RemoveLineFromLogFile(line);
                     }
                     else
                     {
-                        ExtractTimeLogFile(line);
+                        ExtractLineFromLogFile(line);
                     }
 
                     if (cancellationToken.IsCancellationRequested)
@@ -195,6 +229,7 @@ namespace Splitt
 
             if (_tempLines.IsCompleted)
             {
+                // TODO ADD Event for completion so user knows
                 ExtractedLines.CompleteAdding();
             }
         }
@@ -227,19 +262,9 @@ namespace Splitt
         /// Write data to the new file
         /// </summary>
         /// <param name="cancellationToken">Cancels the process</param>
-        private void WritingDataToFile(CancellationToken cancellationToken)
+        private void WritingDataToNewFile(CancellationToken cancellationToken)
         {
-            string filename;
-
-            filename = RemoveLines ? CreateNewFileName(RemoveLines) : CreateNewFileName();
-
-            if (!File.Exists(filename))
-            {
-                using (File.Create(filename))
-                {
-                    // TODO LOG File Created
-                }
-            }
+            string filename = CreateNewFileName();
 
             using (FileStream fs = new FileStream(filename, FileMode.Append, FileAccess.Write))
             {
@@ -249,7 +274,7 @@ namespace Splitt
                     {
                         if (cancellationToken.IsCancellationRequested)
                         {
-                            // TODO ADD LOGGIN for BREAK
+                            // TODO ADD Event for BREAK so user knows
                             break;
                         }
 
