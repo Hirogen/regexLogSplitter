@@ -129,6 +129,7 @@
             this._chkBoxRemoveLines.Size = new System.Drawing.Size(100, 17);
             this._chkBoxRemoveLines.TabIndex = 8;
             this._chkBoxRemoveLines.Text = "Remove Lines?";
+            this.toolTip.SetToolTip(this._chkBoxRemoveLines, "If checked the lines are removed, else the lines are extracted");
             this._chkBoxRemoveLines.UseVisualStyleBackColor = true;
             // 
             // _btnLoadFolder
