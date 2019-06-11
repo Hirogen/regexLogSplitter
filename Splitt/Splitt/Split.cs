@@ -62,11 +62,7 @@ namespace Splitt
         /// </summary>
         public string LineRegex { get; set; }
 
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the lines should be removed or not
-        /// </summary>
-        public bool RemoveLines { get; set; }
+        public ExtractionType ExtractionType { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether an interval is used to split the log file apart
@@ -211,27 +207,39 @@ namespace Splitt
             Parallel.ForEach(
                 _tempLines.GetConsumingEnumerable().AsParallel().AsOrdered(),
                 (line, loopState) =>
-                {
-                    if (RemoveLines)
                     {
-                        RemoveLineFromLogFile(line);
-                    }
-                    else
-                    {
-                        ExtractLineFromLogFile(line);
-                    }
+                        switch (ExtractionType)
+                        {
+                            case ExtractionType.RemoveLines:
+                                RemoveLineFromLogFile(line);
+                                break;
+                            case ExtractionType.ExtractLines:
+                                ExtractLineFromLogFile(line);
+                                break;
+                            case ExtractionType.ObfuscateLines:
+                                ObfuscateLine(line);
+                                break;
+                            default:
+                                RemoveLineFromLogFile(line);
+                                break;
+                        }
 
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        loopState.Break();
-                    }
-                });
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            loopState.Break();
+                        }
+                    });
 
             if (_tempLines.IsCompleted)
             {
                 // TODO ADD Event for completion so user knows
                 ExtractedLines.CompleteAdding();
             }
+        }
+
+        private void ObfuscateLine(string line)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

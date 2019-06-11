@@ -29,6 +29,7 @@ namespace Splitt
 
             _cancellationTokenSource = new CancellationTokenSource();
             _cancellationToken = _cancellationTokenSource.Token;
+            cbxExtractionType.DataSource =  Enum.GetValues(typeof(ExtractionType));
         }
 
         #endregion
@@ -96,7 +97,7 @@ namespace Splitt
                 splittingMultipleFile.StartTime = _startTime.Value;
                 splittingMultipleFile.EndTime = _endTime.Value;
                 splittingMultipleFile.LineRegex = _txtBoxRemoveLineRegex.Text;
-                splittingMultipleFile.RemoveLines = _chkBoxRemoveLines.Checked;
+                splittingMultipleFile.ExtractionType = (ExtractionType)cbxExtractionType.SelectedItem;
                 splittingMultipleFile.Interval = _chkboxInterval.Checked;
             }
         }

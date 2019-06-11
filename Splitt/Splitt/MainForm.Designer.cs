@@ -39,10 +39,10 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this._txtBoxRemoveLineRegex = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this._chkBoxRemoveLines = new System.Windows.Forms.CheckBox();
             this._btnLoadFolder = new System.Windows.Forms.Button();
             this._folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this._chkboxInterval = new System.Windows.Forms.CheckBox();
+            this.cbxExtractionType = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // startProcess
@@ -57,7 +57,7 @@
             // 
             // loadFile
             // 
-            this.loadFile.Location = new System.Drawing.Point(11, 170);
+            this.loadFile.Location = new System.Drawing.Point(10, 163);
             this.loadFile.Name = "loadFile";
             this.loadFile.Size = new System.Drawing.Size(206, 23);
             this.loadFile.TabIndex = 1;
@@ -71,6 +71,7 @@
             // 
             // cancel
             // 
+            this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancel.Location = new System.Drawing.Point(142, 251);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(75, 23);
@@ -83,7 +84,7 @@
             // 
             this._startTime.CustomFormat = "dd.MM.yyyy HH:mm:ss";
             this._startTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this._startTime.Location = new System.Drawing.Point(11, 199);
+            this._startTime.Location = new System.Drawing.Point(10, 192);
             this._startTime.Name = "_startTime";
             this._startTime.Size = new System.Drawing.Size(206, 20);
             this._startTime.TabIndex = 3;
@@ -92,7 +93,7 @@
             // 
             this._endTime.CustomFormat = "dd.MM.yyyy HH:mm:ss";
             this._endTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this._endTime.Location = new System.Drawing.Point(11, 225);
+            this._endTime.Location = new System.Drawing.Point(10, 218);
             this._endTime.Name = "_endTime";
             this._endTime.Size = new System.Drawing.Size(206, 20);
             this._endTime.TabIndex = 4;
@@ -121,20 +122,9 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "Filter Regex:";
             // 
-            // _chkBoxRemoveLines
-            // 
-            this._chkBoxRemoveLines.AutoSize = true;
-            this._chkBoxRemoveLines.Location = new System.Drawing.Point(12, 84);
-            this._chkBoxRemoveLines.Name = "_chkBoxRemoveLines";
-            this._chkBoxRemoveLines.Size = new System.Drawing.Size(100, 17);
-            this._chkBoxRemoveLines.TabIndex = 8;
-            this._chkBoxRemoveLines.Text = "Remove Lines?";
-            this.toolTip.SetToolTip(this._chkBoxRemoveLines, "If checked the lines are removed, else the lines are extracted");
-            this._chkBoxRemoveLines.UseVisualStyleBackColor = true;
-            // 
             // _btnLoadFolder
             // 
-            this._btnLoadFolder.Location = new System.Drawing.Point(12, 141);
+            this._btnLoadFolder.Location = new System.Drawing.Point(11, 134);
             this._btnLoadFolder.Name = "_btnLoadFolder";
             this._btnLoadFolder.Size = new System.Drawing.Size(206, 23);
             this._btnLoadFolder.TabIndex = 9;
@@ -145,21 +135,34 @@
             // _chkboxInterval
             // 
             this._chkboxInterval.AutoSize = true;
-            this._chkboxInterval.Location = new System.Drawing.Point(11, 107);
+            this._chkboxInterval.Location = new System.Drawing.Point(11, 111);
             this._chkboxInterval.Name = "_chkboxInterval";
             this._chkboxInterval.Size = new System.Drawing.Size(67, 17);
             this._chkboxInterval.TabIndex = 10;
             this._chkboxInterval.Text = "Interval?";
             this._chkboxInterval.UseVisualStyleBackColor = true;
             // 
+            // cbxExtractionType
+            // 
+            this.cbxExtractionType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxExtractionType.FormattingEnabled = true;
+            this.cbxExtractionType.Items.AddRange(new object[] {
+            "Remove Lines",
+            "Extract Lines",
+            "Obfusicate Lines"});
+            this.cbxExtractionType.Location = new System.Drawing.Point(11, 84);
+            this.cbxExtractionType.Name = "cbxExtractionType";
+            this.cbxExtractionType.Size = new System.Drawing.Size(205, 21);
+            this.cbxExtractionType.TabIndex = 11;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(229, 280);
+            this.Controls.Add(this.cbxExtractionType);
             this.Controls.Add(this._chkboxInterval);
             this.Controls.Add(this._btnLoadFolder);
-            this.Controls.Add(this._chkBoxRemoveLines);
             this.Controls.Add(this.label1);
             this.Controls.Add(this._txtBoxRemoveLineRegex);
             this.Controls.Add(this._txtBoxFilePath);
@@ -187,10 +190,10 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.TextBox _txtBoxRemoveLineRegex;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox _chkBoxRemoveLines;
         private System.Windows.Forms.Button _btnLoadFolder;
         private System.Windows.Forms.FolderBrowserDialog _folderBrowserDialog;
         private System.Windows.Forms.CheckBox _chkboxInterval;
+        private System.Windows.Forms.ComboBox cbxExtractionType;
     }
 }
 
