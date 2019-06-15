@@ -8,7 +8,8 @@ namespace Splitt
 {
     public enum ExtractionType
     {
-        RemoveLines = 0,
+        ChooseType = 0,
+        RemoveLines,
         ExtractLines,
         ObfuscateLines
     }

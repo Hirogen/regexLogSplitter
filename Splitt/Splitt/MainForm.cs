@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading;
 using System.Windows.Forms;
+using Splitt.Properties;
 
 namespace Splitt
 {
@@ -30,6 +33,21 @@ namespace Splitt
             _cancellationTokenSource = new CancellationTokenSource();
             _cancellationToken = _cancellationTokenSource.Token;
             cbxExtractionType.DataSource =  Enum.GetValues(typeof(ExtractionType));
+            FixTableSizes();
+            btnCancel.Enabled = false;
+            btnStartProcess.Enabled = false;
+            btnEditRegex.Enabled = false;
+            btnDeleteRegex.Enabled = false;
+
+            dtpStartTime.Enabled = chkboxInterval.Checked;
+            dtpEndTime.Enabled = chkboxInterval.Checked;
+        }
+
+        private void FixTableSizes()
+        {
+            int row = tlpMain.GetRow(lblChooseFolderOrFile);
+            tlpMain.RowStyles[row].Height = lblChooseFolderOrFile.Height;
+
         }
 
         #endregion
@@ -51,9 +69,16 @@ namespace Splitt
             if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _filesData.Add(new FileData(_openFileDialog.FileName));
-                _txtBoxFilePath.Text = _filesData.First().FileName;
-                toolTip.SetToolTip(_txtBoxFilePath, _txtBoxFilePath.Text);
+                txtBoxFilePath.Text = _filesData.First().FileName;
+                toolTip.SetToolTip(txtBoxFilePath, txtBoxFilePath.Text);
+                SetPanelImages();
             }
+        }
+
+        private void SetPanelImages()
+        {
+            panelFileOrFolderImages.BackgroundImage = Resources.ok;
+            toolTip.SetToolTip(panelFileOrFolderImages, "File or Folder chosen!");
         }
 
         private void Cancel_Click(object sender, EventArgs e)
@@ -75,8 +100,9 @@ namespace Splitt
                     _filesData.Add(new FileData(file));
                 }
 
-                _txtBoxFilePath.Text = folderPath;
-                toolTip.SetToolTip(_txtBoxFilePath, _txtBoxFilePath.Text);
+                txtBoxFilePath.Text = folderPath;
+                toolTip.SetToolTip(txtBoxFilePath, txtBoxFilePath.Text);
+                SetPanelImages();
             }
         }
 
@@ -94,11 +120,22 @@ namespace Splitt
 
             foreach (Split splittingMultipleFile in _splittingMultipleFiles)
             {
-                splittingMultipleFile.StartTime = _startTime.Value;
-                splittingMultipleFile.EndTime = _endTime.Value;
-                splittingMultipleFile.LineRegex = _txtBoxRemoveLineRegex.Text;
-                splittingMultipleFile.ExtractionType = (ExtractionType)cbxExtractionType.SelectedItem;
-                splittingMultipleFile.Interval = _chkboxInterval.Checked;
+                if (chkboxInterval.Checked)
+                {
+                    splittingMultipleFile.StartTime = dtpStartTime.Value;
+                    splittingMultipleFile.EndTime = dtpEndTime.Value;
+                }
+
+                splittingMultipleFile.Interval = chkboxInterval.Checked;
+
+                //splittingMultipleFile.LineRegex = _txtBoxRemoveLineRegex.Text;
+
+                if ((ExtractionType) cbxExtractionType.SelectedItem != ExtractionType.ChooseType)
+                {
+                    splittingMultipleFile.ExtractionType = (ExtractionType)cbxExtractionType.SelectedItem;
+                }
+
+                
             }
         }
 
@@ -121,6 +158,41 @@ namespace Splitt
             {
                 t.Start();
             }
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            _cancellationTokenSource.Cancel();
+            // TODO Add functionality to wait for task to finish
+            Application.Exit();
+            
+        }
+
+        private void btnAddRegex_Click(object sender, EventArgs e)
+        {
+            // TODO Add Regex Dialog here
+        }
+
+        private void btnDeleteRegex_Click(object sender, EventArgs e)
+        {
+            // TODO ADD "Remove" selected Regex here
+        }
+
+        private void btnEditRegex_Click(object sender, EventArgs e)
+        {
+            // TODO Add "Edit" selected Regex here
+        }
+
+        private void OnCheckedChanged(object sender, EventArgs e)
+        {
+            dtpStartTime.Enabled = chkboxInterval.Checked;
+            dtpEndTime.Enabled = chkboxInterval.Checked;
+            panelIntervalImage.BackgroundImage = chkboxInterval.Checked ? Resources.ok : Resources.nok;
+        }
+
+        private void OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            panelTypeImage.BackgroundImage = (ExtractionType) cbxExtractionType.SelectedItem != ExtractionType.ChooseType ? Resources.ok : Resources.nok;
         }
     }
 }
