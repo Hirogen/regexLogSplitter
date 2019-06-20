@@ -15,7 +15,6 @@ namespace Splitt.Helper
         {
             try
             {
-                //TODO Caption to resources
                 new Regex(regex);
                 errorMessage = string.Empty;
                 return true;
