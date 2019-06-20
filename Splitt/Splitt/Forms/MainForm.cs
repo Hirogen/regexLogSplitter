@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading;
 using System.Windows.Forms;
 using Splitt.Properties;
 
-namespace Splitt
+namespace Splitt.Forms
 {
     public partial class MainForm : Form
     {
@@ -21,6 +19,7 @@ namespace Splitt
         private readonly List<FileData> _filesData = new List<FileData>();
         private List<Split> _splittingMultipleFiles = new List<Split>();
         private List<Thread> _splittingMultipleFilesThreads = new List<Thread>();
+        private readonly RegexForm _regexForm = new RegexForm();
 
         #endregion
 
@@ -170,17 +169,22 @@ namespace Splitt
 
         private void btnAddRegex_Click(object sender, EventArgs e)
         {
-            // TODO Add Regex Dialog here
+            OpenRegexEditor();
         }
 
         private void btnDeleteRegex_Click(object sender, EventArgs e)
         {
-            // TODO ADD "Remove" selected Regex here
+            cbxRegex.Items.Remove(cbxRegex.SelectedItem);
+
+            if (cbxRegex.Items.Count == 0)
+            {
+                btnDeleteRegex.Enabled = false;
+            }
         }
 
         private void btnEditRegex_Click(object sender, EventArgs e)
         {
-            // TODO Add "Edit" selected Regex here
+            OpenRegexEditor();
         }
 
         private void OnCheckedChanged(object sender, EventArgs e)
@@ -193,6 +197,26 @@ namespace Splitt
         private void OnSelectedIndexChanged(object sender, EventArgs e)
         {
             panelTypeImage.BackgroundImage = (ExtractionType) cbxExtractionType.SelectedItem != ExtractionType.ChooseType ? Resources.ok : Resources.nok;
+        }
+
+        private void OpenRegexEditor()
+        {
+            if (cbxRegex.Items.Count > 0)
+            {
+                _regexForm.Regexes = cbxRegex.Items.Cast<string>().ToList();
+            }
+
+            if (_regexForm.ShowDialog(this) == DialogResult.OK)
+            {
+                cbxRegex.Items.Clear();
+                cbxRegex.Items.AddRange(_regexForm.Regexes.ToArray());
+
+                if (cbxRegex.Items.Count > 0)
+                {
+                    btnDeleteRegex.Enabled = true;
+                }
+            }
+
         }
     }
 }

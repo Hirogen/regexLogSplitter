@@ -117,19 +117,50 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="_openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>150, 17</value>
-  </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>150, 17</value>
-  </metadata>
-  <metadata name="_folderBrowserDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>240, 17</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>79</value>
-  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="rtbRegexEditor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 45</value>
+  </data>
+  <data name="rtbRegexEditor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>602, 402</value>
+  </data>
+  <data name="rtbRegexEditor.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAddRegex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 36</value>
+  </data>
+  <data name="btnDeleteRegex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 36</value>
+  </data>
+  <data name="btnClearRegexEditor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 36</value>
+  </data>
+  <data name="btnValidateRegex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 36</value>
+  </data>
+  <data name="tlpRegexButtons.Size" type="System.Drawing.Size, System.Drawing">
+    <value>602, 36</value>
+  </data>
+  <data name="btnAddRegex.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="btnDeleteRegex.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="btnClearRegexEditor.Text" xml:space="preserve">
+    <value>Clear editor</value>
+  </data>
+  <data name="btnValidateRegex.Text" xml:space="preserve">
+    <value>Validate</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Regex-Editor</value>
+  </data>
+  <data name="regexValid" xml:space="preserve">
+    <value>Regex is valid</value>
+  </data>
+  <data name="regexInvalid" xml:space="preserve">
+    <value>Regex is invalid</value>
+  </data>
 </root>

@@ -18,7 +18,7 @@ namespace Splitt
         /// <summary>
         /// static time filter regex
         /// </summary>
-        private const string TIME_FILTER_REGEX = @"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3})";
+        private const string TimeFilterRegex = @"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3})";
 
         #endregion
 
@@ -160,7 +160,7 @@ namespace Splitt
         /// <param name="line">current log line</param>
         private void ExtractLineFromLogFile(string line)
         {
-            Match m = Regex.Match(line, Interval ? TIME_FILTER_REGEX : LineRegex);
+            Match m = Regex.Match(line, Interval ? TimeFilterRegex : LineRegex);
 
             if (!m.Success)
             {
