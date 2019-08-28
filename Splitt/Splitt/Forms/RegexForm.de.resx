@@ -160,4 +160,10 @@
   <data name="regexInvalid" xml:space="preserve">
     <value>Regex beinhaltet einen Fehler</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="textboxEmptyErrorMessage" xml:space="preserve">
+    <value>Kein Inhalt im Textfeld vorhanden</value>
+  </data>
 </root>

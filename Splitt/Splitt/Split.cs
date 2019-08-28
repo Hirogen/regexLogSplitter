@@ -242,6 +242,7 @@ namespace Splitt
             throw new NotImplementedException();
         }
 
+        //TODO Change to Async Task Method, so it is faster
         /// <summary>
         /// Read the log lines
         /// </summary>
@@ -266,6 +267,8 @@ namespace Splitt
             }
         }
 
+
+        //TODO Change to Async Task Method, so it is faster
         /// <summary>
         /// Write data to the new file
         /// </summary>

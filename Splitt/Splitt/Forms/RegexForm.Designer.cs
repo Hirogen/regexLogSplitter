@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegexForm));
             this.panelMain = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpRegexEditor = new System.Windows.Forms.TableLayoutPanel();
             this.rtbRegexEditor = new System.Windows.Forms.RichTextBox();
             this.tlpRegexButtons = new System.Windows.Forms.TableLayoutPanel();
             this.btnAddRegex = new System.Windows.Forms.Button();
@@ -39,28 +39,29 @@
             this.btnValidateRegex = new System.Windows.Forms.Button();
             this.lbRegexes = new System.Windows.Forms.ListBox();
             this.panelMain.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tlpRegexEditor.SuspendLayout();
             this.tlpRegexButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
             // 
-            resources.ApplyResources(this.panelMain, "panelMain");
-            this.panelMain.Controls.Add(this.tableLayoutPanel1);
+            this.panelMain.Controls.Add(this.tlpRegexEditor);
             this.panelMain.Controls.Add(this.lbRegexes);
+            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
             // 
-            // tableLayoutPanel1
+            // tlpRegexEditor
             // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.rtbRegexEditor, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tlpRegexButtons, 0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            resources.ApplyResources(this.tlpRegexEditor, "tlpRegexEditor");
+            this.tlpRegexEditor.Controls.Add(this.rtbRegexEditor, 0, 1);
+            this.tlpRegexEditor.Controls.Add(this.tlpRegexButtons, 0, 0);
+            this.tlpRegexEditor.Name = "tlpRegexEditor";
             // 
             // rtbRegexEditor
             // 
             resources.ApplyResources(this.rtbRegexEditor, "rtbRegexEditor");
             this.rtbRegexEditor.Name = "rtbRegexEditor";
+            this.rtbRegexEditor.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // tlpRegexButtons
             // 
@@ -113,7 +114,7 @@
             this.Controls.Add(this.panelMain);
             this.Name = "RegexForm";
             this.panelMain.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tlpRegexEditor.ResumeLayout(false);
             this.tlpRegexButtons.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -123,7 +124,7 @@
 
         private System.Windows.Forms.Panel panelMain;
         private System.Windows.Forms.ListBox lbRegexes;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tlpRegexEditor;
         private System.Windows.Forms.RichTextBox rtbRegexEditor;
         private System.Windows.Forms.TableLayoutPanel tlpRegexButtons;
         private System.Windows.Forms.Button btnAddRegex;

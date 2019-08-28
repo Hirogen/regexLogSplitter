@@ -38,6 +38,7 @@
             this.dtpEndTime = new System.Windows.Forms.DateTimePicker();
             this.txtBoxFilePath = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.panelFileOrFolderImages = new System.Windows.Forms.Panel();
             this.lblRegex = new System.Windows.Forms.Label();
             this.btnLoadFolder = new System.Windows.Forms.Button();
             this.chkboxInterval = new System.Windows.Forms.CheckBox();
@@ -46,7 +47,6 @@
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.lblChooseFolderOrFile = new System.Windows.Forms.Label();
             this.tlpFileOrFolder = new System.Windows.Forms.TableLayoutPanel();
-            this.panelFileOrFolderImages = new System.Windows.Forms.Panel();
             this.tlpRegex = new System.Windows.Forms.TableLayoutPanel();
             this.cbxRegex = new System.Windows.Forms.ComboBox();
             this.btnAddRegex = new System.Windows.Forms.Button();
@@ -117,6 +117,13 @@
             this.txtBoxFilePath.Name = "txtBoxFilePath";
             this.txtBoxFilePath.ReadOnly = true;
             this.toolTip.SetToolTip(this.txtBoxFilePath, resources.GetString("txtBoxFilePath.ToolTip"));
+            // 
+            // panelFileOrFolderImages
+            // 
+            this.panelFileOrFolderImages.BackgroundImage = global::Splitt.Properties.Resources.nok;
+            resources.ApplyResources(this.panelFileOrFolderImages, "panelFileOrFolderImages");
+            this.panelFileOrFolderImages.Name = "panelFileOrFolderImages";
+            this.toolTip.SetToolTip(this.panelFileOrFolderImages, resources.GetString("panelFileOrFolderImages.ToolTip"));
             // 
             // lblRegex
             // 
@@ -189,13 +196,6 @@
             this.tlpFileOrFolder.Controls.Add(this.btnLoadFolder, 0, 0);
             this.tlpFileOrFolder.Controls.Add(this.btnLoadFile, 1, 0);
             this.tlpFileOrFolder.Name = "tlpFileOrFolder";
-            // 
-            // panelFileOrFolderImages
-            // 
-            this.panelFileOrFolderImages.BackgroundImage = global::Splitt.Properties.Resources.nok;
-            resources.ApplyResources(this.panelFileOrFolderImages, "panelFileOrFolderImages");
-            this.panelFileOrFolderImages.Name = "panelFileOrFolderImages";
-            this.toolTip.SetToolTip(this.panelFileOrFolderImages, resources.GetString("panelFileOrFolderImages.ToolTip"));
             // 
             // tlpRegex
             // 

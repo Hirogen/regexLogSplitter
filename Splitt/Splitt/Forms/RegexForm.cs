@@ -1,31 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Resources;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Splitt.Helper;
-using Splitt.Properties;
 
 namespace Splitt.Forms
 {
     public partial class RegexForm : Form
     {
-        private List<string> _regexes;
+        #region Private Fields
+
         private readonly ResourceManager _resources = new ResourceManager(typeof(RegexForm));
+        private List<string> _regexes;
 
-        public bool Add { get; set; }
+        #endregion
 
-        public List<string> Regexes
-        {
-            get => _regexes;
-            set => _regexes = value;
-        }
+        #region Ctor
 
         public RegexForm()
         {
@@ -34,6 +25,115 @@ namespace Splitt.Forms
             {
                 _regexes = new List<string>(1);
             }
+
+            btnAddRegex.Enabled = false;
+            btnDeleteRegex.Enabled = false;
+            btnClearRegexEditor.Enabled = false;
+            btnValidateRegex.Enabled = false;
+        }
+
+        #endregion
+
+        #region Properties / Indexers
+
+        public bool Add { get; set; }
+
+        public List<string> Regexes
+        {
+            get => _regexes;
+            set
+            {
+                if (value.Any())
+                {
+                    _regexes = value;
+                    btnDeleteRegex.Enabled = true;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Event handling Methods
+
+        private void OnTextChanged(object sender, EventArgs e)
+        {
+            CheckButtonStates();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void btnAddRegex_Click(object sender, EventArgs e)
+        {
+            if (CheckEditorEmptyOrWhiteSpaces() || !ValidateRegex())
+            {
+                CheckButtonStates();
+                return;
+            }
+
+            lbRegexes.Items.Add(rtbRegexEditor.Text);
+            rtbRegexEditor.Clear();
+            CheckButtonStates();
+        }
+
+        private void btnClearRegexEditor_Click(object sender, EventArgs e)
+        {
+            rtbRegexEditor.Clear();
+            CheckButtonStates();
+        }
+
+        private void btnDeleteRegex_Click(object sender, EventArgs e)
+        {
+            lbRegexes.Items.Remove(lbRegexes.SelectedItem);
+            rtbRegexEditor.Clear();
+            CheckButtonStates();
+        }
+
+        private void btnValidateRegex_Click(object sender, EventArgs e)
+        {
+            if (CheckEditorEmptyOrWhiteSpaces())
+            {
+                HelperFunctions.ShowMessageBox(_resources.GetString("textboxEmptyErrorMessage"), _resources.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                ValidateRegex();
+            }
+
+            CheckButtonStates();
+        }
+
+        private void CheckButtonStates()
+        {
+            if (CheckEditorEmptyOrWhiteSpaces())
+            {
+                btnAddRegex.Enabled = false;
+                btnValidateRegex.Enabled = false;
+
+                if (CheckEditorEmpty())
+                {
+                    btnClearRegexEditor.Enabled = false;
+                }
+            }
+            else
+            {
+                btnAddRegex.Enabled = true;
+                btnValidateRegex.Enabled = true;
+                btnClearRegexEditor.Enabled = true;
+            }
+
+            btnDeleteRegex.Enabled = lbRegexes.Items.Count > 0 && lbRegexes.SelectedItem != null;
+        }
+
+        private bool CheckEditorEmpty()
+        {
+            return string.IsNullOrEmpty(rtbRegexEditor.Text);
+        }
+
+        private bool CheckEditorEmptyOrWhiteSpaces()
+        {
+            return string.IsNullOrWhiteSpace(rtbRegexEditor.Text);
         }
 
         private void lbRegexes_SelectedIndexChanged(object sender, EventArgs e)
@@ -42,32 +142,14 @@ namespace Splitt.Forms
             {
                 rtbRegexEditor.Text = lbRegexes.SelectedItem.ToString();
             }
+
+            CheckButtonStates();
         }
 
-        private void btnAddRegex_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(rtbRegexEditor.Text) || !ValidateRegex()) return;
-
-            lbRegexes.Items.Add(rtbRegexEditor.Text);
-            rtbRegexEditor.Clear();
-        }
-
-        private void btnDeleteRegex_Click(object sender, EventArgs e)
-        {
-            lbRegexes.Items.Remove(lbRegexes.SelectedItem);
-            rtbRegexEditor.Clear();
-        }
-
-        private void btnClearRegexEditor_Click(object sender, EventArgs e)
-        {
-            rtbRegexEditor.Clear();
-        }
-
-        private void btnValidateRegex_Click(object sender, EventArgs e)
-        {
-            ValidateRegex();
-        }
-
+        /// <summary>
+        /// Validates a given Regex
+        /// </summary>
+        /// <returns>true if validation successfull</returns>
         private bool ValidateRegex()
         {
             if (HelperFunctions.ValidateRegex(rtbRegexEditor.Text, out string errorMessage))
@@ -80,5 +162,6 @@ namespace Splitt.Forms
             return false;
         }
 
+        #endregion
     }
 }

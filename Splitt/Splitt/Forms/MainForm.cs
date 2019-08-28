@@ -145,6 +145,7 @@ namespace Splitt.Forms
                 _splittingMultipleFilesThreads = new List<Thread>();
             }
 
+            //TODO Change to Async Await!
             foreach (Split splittingMultipleFile in _splittingMultipleFiles)
             {
                 _splittingMultipleFilesThreads.Add(new Thread(() => splittingMultipleFile.Start(_cancellationToken))
