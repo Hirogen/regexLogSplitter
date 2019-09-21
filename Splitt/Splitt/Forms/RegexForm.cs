@@ -163,5 +163,11 @@ namespace Splitt.Forms
         }
 
         #endregion
+
+        private void OnFormClosing(object sender, FormClosingEventArgs e)
+        {
+            _regexes.AddRange(lbRegexes.Items.Cast<string>().ToList());
+            DialogResult = DialogResult.OK;
+        }
     }
 }

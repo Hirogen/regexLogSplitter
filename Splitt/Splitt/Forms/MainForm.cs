@@ -18,6 +18,7 @@ namespace Splitt.Forms
         private readonly CancellationTokenSource _cancellationTokenSource;
         private readonly List<FileData> _filesData = new List<FileData>();
         private List<Split> _splittingMultipleFiles = new List<Split>();
+        private Split _pipeLineSplit;
         private List<Thread> _splittingMultipleFilesThreads = new List<Thread>();
         private readonly RegexForm _regexForm = new RegexForm();
 
@@ -34,9 +35,15 @@ namespace Splitt.Forms
             cbxExtractionType.DataSource =  Enum.GetValues(typeof(ExtractionType));
             FixTableSizes();
             btnCancel.Enabled = false;
+
+            #if DEBUG
+            btnStartProcess.Enabled = true;
+            #else
             btnStartProcess.Enabled = false;
             btnEditRegex.Enabled = false;
             btnDeleteRegex.Enabled = false;
+            #endif
+            
 
             dtpStartTime.Enabled = chkboxInterval.Checked;
             dtpEndTime.Enabled = chkboxInterval.Checked;
@@ -55,12 +62,15 @@ namespace Splitt.Forms
 
         private void Start_Click(object sender, EventArgs e)
         {
-
+            #if DEBUG
+            _pipeLineSplit.StartPipeline(new CancellationToken());
+            #else
             if (_filesData.Capacity > 0)
             {
                 FilesPreWork();
                 CreateThreads();
             }
+            #endif
         }
 
         private void OpenFile_Click(object sender, EventArgs e)
@@ -69,6 +79,7 @@ namespace Splitt.Forms
             {
                 _filesData.Add(new FileData(_openFileDialog.FileName));
                 txtBoxFilePath.Text = _filesData.First().FileName;
+                _pipeLineSplit = new Split(new FileData(_openFileDialog.FileName));
                 toolTip.SetToolTip(txtBoxFilePath, txtBoxFilePath.Text);
                 SetPanelImages();
             }
@@ -133,8 +144,6 @@ namespace Splitt.Forms
                 {
                     splittingMultipleFile.ExtractionType = (ExtractionType)cbxExtractionType.SelectedItem;
                 }
-
-                
             }
         }
 
@@ -215,6 +224,7 @@ namespace Splitt.Forms
                 if (cbxRegex.Items.Count > 0)
                 {
                     btnDeleteRegex.Enabled = true;
+                    btnEditRegex.Enabled = true;
                 }
             }
 

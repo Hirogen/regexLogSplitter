@@ -3,9 +3,11 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Splitt.Pipeline;
 
 namespace Splitt
 {
@@ -74,9 +76,36 @@ namespace Splitt
         /// </summary>
         public DateTimeOffset StartTime { get; set; }
 
+        private StreamReader _fileToRead;
+        private StreamWriter _fileToWrite;
+
         #endregion
 
         #region Public Methods
+
+        public void StartPipeline(CancellationToken cancellationToken)
+        {
+            CastingPipelineBuilder builder = new CastingPipelineBuilder();
+            
+            if (Filename.FileInformation.Exists)
+            {
+                _fileToRead = new StreamReader(Filename.FileName);
+                _fileToWrite = new StreamWriter(CreateNewFileName());
+
+                builder.AddStep(input => ReadLineFromFile());
+                builder.AddStep(input => WriteLineToFile(input as BlockingCollection<string>));
+
+                var pipeline = builder.GetPipeline();
+                pipeline.Finished += res => CloseStreams();
+                pipeline.Execute("Test");
+            }
+        }
+
+        public void CloseStreams()
+        {
+            _fileToRead.Close();
+            _fileToWrite.Close();
+        }
 
         /// <summary>
         /// Start the extraction process
@@ -84,13 +113,11 @@ namespace Splitt
         /// <param name="cancellationToken">Cancels the process</param>
         public void Start(CancellationToken cancellationToken)
         {
-
             // TODO ADD Event for progressbar so user knows
             Task readLines = Task.Factory.StartNew(() => ReadingDataFromLogfile(cancellationToken), cancellationToken);
             Task processLines = Task.Factory.StartNew(() => ProcessLines(cancellationToken), cancellationToken);
             Task writingLines = Task.Factory.StartNew(() => WritingDataToNewFile(cancellationToken), cancellationToken);
-
-
+            
             Task.WaitAll(readLines, processLines, writingLines);
 
             if (processLines.IsCompleted && _tempLines.IsCompleted && (_tempLines.Count == 0 || _tempLines.Count < 0))
@@ -240,6 +267,47 @@ namespace Splitt
         private void ObfuscateLine(string line)
         {
             throw new NotImplementedException();
+        }
+
+        /*
+         * => Readline
+         * => Do Regexes
+         * => Add Regex 1
+         * => Add Regex 2
+         * => Add Regex .
+         * => Add Regex .
+         * => Add Regex .
+         * => Add Regex .
+         * => Add Regex n
+         * => WriteLines
+         */
+
+        public BlockingCollection<string> ReadLineFromFile()
+        {
+            BlockingCollection<string> lines = new BlockingCollection<string>();
+
+            foreach (string line in File.ReadLines(Filename.FileInformation.FullName))
+            {
+                lines.Add(line);
+            }
+            lines.CompleteAdding();
+
+            return lines;
+        }
+
+        public BlockingCollection<string> WriteLineToFile(BlockingCollection<string> lines)
+        {
+            while (!lines.IsCompleted)
+            {
+                lines.TryTake(out string line);
+
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    _fileToWrite.WriteLine(line);
+                }
+            }
+
+            return lines;
         }
 
         //TODO Change to Async Task Method, so it is faster

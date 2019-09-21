@@ -113,6 +113,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panelMain);
             this.Name = "RegexForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnFormClosing);
             this.panelMain.ResumeLayout(false);
             this.tlpRegexEditor.ResumeLayout(false);
             this.tlpRegexButtons.ResumeLayout(false);

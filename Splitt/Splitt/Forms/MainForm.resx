@@ -306,24 +306,6 @@
   <data name="tlpFileOrFolder.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="btnLoadFolder.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="btnLoadFolder.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="btnLoadFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="btnLoadFolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 61</value>
-  </data>
-  <data name="btnLoadFolder.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="btnLoadFolder.Text" xml:space="preserve">
-    <value>Ordner laden</value>
-  </data>
   <data name="&gt;&gt;btnLoadFolder.Name" xml:space="preserve">
     <value>btnLoadFolder</value>
   </data>
@@ -369,6 +351,9 @@
   <data name="tlpFileOrFolder.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="btnLoadFolder" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="btnLoadFile" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Absolute,61" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>150, 17</value>
+  </metadata>
   <data name="panelFileOrFolderImages.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
   </data>
@@ -387,9 +372,6 @@
   <data name="panelFileOrFolderImages.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>150, 17</value>
-  </metadata>
   <data name="panelFileOrFolderImages.ToolTip" xml:space="preserve">
     <value>No file or folder has been chosen</value>
   </data>
@@ -645,24 +627,6 @@
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="lblStartTime.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblStartTime.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 26</value>
-  </data>
-  <data name="lblStartTime.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 0</value>
-  </data>
-  <data name="lblStartTime.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 13</value>
-  </data>
-  <data name="lblStartTime.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="lblStartTime.Text" xml:space="preserve">
-    <value>Start time:</value>
-  </data>
   <data name="&gt;&gt;lblStartTime.Name" xml:space="preserve">
     <value>lblStartTime</value>
   </data>
@@ -675,24 +639,6 @@
   <data name="&gt;&gt;lblStartTime.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="lblEndTime.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblEndTime.Location" type="System.Drawing.Point, System.Drawing">
-    <value>267, 26</value>
-  </data>
-  <data name="lblEndTime.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="lblEndTime.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 13</value>
-  </data>
-  <data name="lblEndTime.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="lblEndTime.Text" xml:space="preserve">
-    <value>End time:</value>
-  </data>
   <data name="&gt;&gt;lblEndTime.Name" xml:space="preserve">
     <value>lblEndTime</value>
   </data>
@@ -704,21 +650,6 @@
   </data>
   <data name="&gt;&gt;lblEndTime.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="chkboxInterval.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkboxInterval.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="chkboxInterval.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 17</value>
-  </data>
-  <data name="chkboxInterval.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="chkboxInterval.Text" xml:space="preserve">
-    <value>Activate Interval</value>
   </data>
   <data name="&gt;&gt;chkboxInterval.Name" xml:space="preserve">
     <value>chkboxInterval</value>
@@ -933,6 +864,9 @@
   <data name="txtBoxFilePath.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>150, 17</value>
+  </metadata>
   <data name="txtBoxFilePath.ToolTip" xml:space="preserve">
     <value>Chosen folder / file</value>
   </data>
@@ -948,56 +882,62 @@
   <data name="&gt;&gt;txtBoxFilePath.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="tlpButtons.ColumnCount" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="btnExit.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="btnLoadFolder.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="btnExit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>388, 1</value>
-  </data>
-  <data name="btnExit.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 1, 1, 1</value>
-  </data>
-  <data name="btnExit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 38</value>
-  </data>
-  <data name="btnExit.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="btnExit.Text" xml:space="preserve">
-    <value>Exit</value>
-  </data>
-  <data name="&gt;&gt;btnExit.Name" xml:space="preserve">
-    <value>btnExit</value>
-  </data>
-  <data name="&gt;&gt;btnExit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnExit.Parent" xml:space="preserve">
-    <value>tlpButtons</value>
-  </data>
-  <data name="&gt;&gt;btnExit.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tlpButtons.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tlpButtons.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="btnLoadFolder.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="tlpButtons.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="btnLoadFolder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="tlpButtons.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="btnLoadFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>264, 61</value>
   </data>
-  <data name="tlpButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>584, 40</value>
+  <data name="btnLoadFolder.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
   </data>
-  <data name="tlpButtons.TabIndex" type="System.Int32, mscorlib">
+  <data name="btnLoadFolder.Text" xml:space="preserve">
+    <value>Ordner laden</value>
+  </data>
+  <data name="&gt;&gt;btnLoadFolder.Name" xml:space="preserve">
+    <value>btnLoadFolder</value>
+  </data>
+  <data name="&gt;&gt;btnLoadFolder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnLoadFolder.Parent" xml:space="preserve">
+    <value>tlpFileOrFolder</value>
+  </data>
+  <data name="&gt;&gt;btnLoadFolder.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="chkboxInterval.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkboxInterval.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="chkboxInterval.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 17</value>
+  </data>
+  <data name="chkboxInterval.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="chkboxInterval.Text" xml:space="preserve">
+    <value>Activate Interval</value>
+  </data>
+  <data name="&gt;&gt;chkboxInterval.Name" xml:space="preserve">
+    <value>chkboxInterval</value>
+  </data>
+  <data name="&gt;&gt;chkboxInterval.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkboxInterval.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;chkboxInterval.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="&gt;&gt;tlpButtons.Name" xml:space="preserve">
     <value>tlpButtons</value>
@@ -1067,6 +1007,144 @@
   </data>
   <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="lblStartTime.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblStartTime.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 26</value>
+  </data>
+  <data name="lblStartTime.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 0</value>
+  </data>
+  <data name="lblStartTime.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 13</value>
+  </data>
+  <data name="lblStartTime.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="lblStartTime.Text" xml:space="preserve">
+    <value>Start time:</value>
+  </data>
+  <data name="&gt;&gt;lblStartTime.Name" xml:space="preserve">
+    <value>lblStartTime</value>
+  </data>
+  <data name="&gt;&gt;lblStartTime.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblStartTime.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;lblStartTime.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblEndTime.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblEndTime.Location" type="System.Drawing.Point, System.Drawing">
+    <value>267, 26</value>
+  </data>
+  <data name="lblEndTime.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="lblEndTime.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 13</value>
+  </data>
+  <data name="lblEndTime.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="lblEndTime.Text" xml:space="preserve">
+    <value>End time:</value>
+  </data>
+  <data name="&gt;&gt;lblEndTime.Name" xml:space="preserve">
+    <value>lblEndTime</value>
+  </data>
+  <data name="&gt;&gt;lblEndTime.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblEndTime.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;lblEndTime.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tlpButtons.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;btnExit.Name" xml:space="preserve">
+    <value>btnExit</value>
+  </data>
+  <data name="&gt;&gt;btnExit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnExit.Parent" xml:space="preserve">
+    <value>tlpButtons</value>
+  </data>
+  <data name="&gt;&gt;btnExit.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tlpButtons.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tlpButtons.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tlpButtons.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tlpButtons.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tlpButtons.Size" type="System.Drawing.Size, System.Drawing">
+    <value>584, 40</value>
+  </data>
+  <data name="tlpButtons.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tlpButtons.Name" xml:space="preserve">
+    <value>tlpButtons</value>
+  </data>
+  <data name="&gt;&gt;tlpButtons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tlpButtons.Parent" xml:space="preserve">
+    <value>panelButtons</value>
+  </data>
+  <data name="&gt;&gt;tlpButtons.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tlpButtons.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="btnStartProcess" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="btnExit" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="btnCancel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,33,33333,Percent,33,33333,Percent,33,33333" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="btnExit.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="btnExit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>388, 1</value>
+  </data>
+  <data name="btnExit.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 1, 1, 1</value>
+  </data>
+  <data name="btnExit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>195, 38</value>
+  </data>
+  <data name="btnExit.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="btnExit.Text" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="&gt;&gt;btnExit.Name" xml:space="preserve">
+    <value>btnExit</value>
+  </data>
+  <data name="&gt;&gt;btnExit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnExit.Parent" xml:space="preserve">
+    <value>tlpButtons</value>
+  </data>
+  <data name="&gt;&gt;btnExit.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <metadata name="_folderBrowserDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>240, 17</value>

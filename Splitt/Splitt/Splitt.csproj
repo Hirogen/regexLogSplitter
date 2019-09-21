@@ -61,6 +61,8 @@
       <DependentUpon>RegexForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\HelperFunctions.cs" />
+    <Compile Include="Pipeline\CastingPipelineBuilder.cs" />
+    <Compile Include="Pipeline\IPipeline.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Split.cs" />
